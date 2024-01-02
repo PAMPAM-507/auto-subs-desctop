@@ -37,13 +37,13 @@ class FileSelectorApp:
         self.file_path = None
 
         self.file_button = tk.Button(
-            self.root, text="Выбрать файл", command=self.choose_file)
+            self.root, text="Select a file", command=self.choose_file)
         self.file_button.pack()
 
         self.directory_path = None
 
         self.dir_button = tk.Button(
-            self.root, text="Выбрать директорию", command=self.choose_directory)
+            self.root, text="Select a directory", command=self.choose_directory)
         self.dir_button.pack()
 
 
@@ -57,24 +57,24 @@ class FileSelectorApp:
     def choose_file(self):
         self.file_path = filedialog.askopenfilename()
         if self.file_path:
-            print(f"Выбран файл: {self.file_path}")
+            print(f"The file is selected: {self.file_path}")
             if self.directory_path:
                 self.execute()
             else:
-                print("Директория не выбрана")
+                print("The directory is not selected")
         else:
-            print("Файл не выбран")
+            print("The file is not selected")
 
     def choose_directory(self):
         self.directory_path = filedialog.askdirectory()
         if self.directory_path:
-            print(f"Выбрана директория: {self.directory_path}")
+            print(f"A directory has been selected: {self.directory_path}")
             if self.file_path:
                 self.execute()
             else:
-                print("Файл не выбран")
+                print("The file is not selected")
         else:
-            print("Директория не выбрана")
+            print("The directory is not selected")
 
     @staticmethod
     def clear_bin_directory(path):
@@ -87,7 +87,7 @@ class FileSelectorApp:
                     os.remove(file_path)
 
         except Exception as e:
-            print(f"Произошла ошибка при удалении файлов с субтитрами: {e}")
+            print(f"An error occurred when deleting files with subtitles: {e}")
 
     def process_file(self):
         if self.file_path and self.directory_path:
@@ -131,9 +131,9 @@ class FileSelectorApp:
                 os.rmdir('./bin')
 
             except Exception as e:
-                print(f"Произошла ошибка: {e}")
+                print(f"An error has occurred: {e}")
         else:
-            print("Необходимо выбрать файл и директорию для продолжения обработки.")
+            print("You must select the file and directory to continue processing.")
 
 
 if __name__ == "__main__":
