@@ -15,6 +15,8 @@ class MYTranslatorABC(ABC):
 
 class MyTranslator(MYTranslatorABC):
 
+    translator = Translator()
+
     def make_translate(self, subtitles, path_for_video, path_for_subs):
         lst = []
         for s in subtitles:
@@ -24,7 +26,7 @@ class MyTranslator(MYTranslatorABC):
         lst = []
 
         for j in range(len(sentences)):
-            translation = Translator().translate(text=sentences[j].text, src='en', dest="ru")
+            translation = self.translator.translate(text=sentences[j].text, src='en', dest="ru")
             lst.append(translation.text)
 
         for i in range(len(subtitles)):

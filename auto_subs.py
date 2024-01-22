@@ -17,7 +17,7 @@ class ConsoleRedirector:
 
     def write(self, message):
         self.text_widget.insert(tk.END, message)
-        self.text_widget.see(tk.END)  # Прокрутка вниз
+        self.text_widget.see(tk.END)
 
 
 class FileSelectorApp:
@@ -96,7 +96,7 @@ class FileSelectorApp:
                 base_dir = re.sub(r'\\', '/', base_dir)
                 os.environ['PROJECT_ROOT'] = base_dir
 
-                model = 'small'
+                model = 'medium'
 
                 process_whisper = subprocess.Popen(
                     f'cd {base_dir}/bin && whisper {self.file_path} --model {model} --language en',
@@ -127,11 +127,13 @@ class FileSelectorApp:
                 process_whisper.wait()
                 process_handle_video.wait()
 
+            except Exception as e:
+                print(f"An error has occurred: {e}")
+            
+            else:
                 self.clear_bin_directory('./bin')
                 os.rmdir('./bin')
 
-            except Exception as e:
-                print(f"An error has occurred: {e}")
         else:
             print("You must select the file and directory to continue processing.")
 
