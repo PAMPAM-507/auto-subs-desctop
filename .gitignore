@@ -13,6 +13,13 @@ venv*
 **/*.txt
 **/*.mp4
 **/t.py
+**/*.docx
+**/*.drawio
+**/do_not_need*
+**/auto_subs.py*
+
+
 !**/*requirements.txt
 !**/for_make_folder.txt
 !**/*requirements_for_w.txt
+
