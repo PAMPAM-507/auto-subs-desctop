@@ -5,7 +5,7 @@ import sys
 
 
 from .put_subs import PutSubs
-from .my_translator import MyTranslator
+from .my_translator import MyGoogleTranslator, MyLocalTranslator
 
 class HandleVideo():
 
@@ -18,7 +18,8 @@ class HandleVideo():
 
             subtitles = pysrt.open(srtfilename)
             
-            MyTranslator().make_translate(subtitles, name_of_video, srtfilename)
+            # MyGoogleTranslator().make_translate(subtitles, srtfilename)
+            MyLocalTranslator().make_translate(subtitles, srtfilename)
             PutSubs(mp4filename, srtfilename, path_for_video,
                     path_for_new_video).generate_video_with_subtitles()
             

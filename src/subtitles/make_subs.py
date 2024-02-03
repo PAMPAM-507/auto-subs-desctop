@@ -50,7 +50,7 @@ class MakeSubsABC(ABC):
 class MakeSubs(MakeSubsABC):
 
     model = FuzzyModel(
-        border_for_first_term=[0, 15, 30], 
+        border_for_first_term=[0, 22, 44], 
         border_for_second_term=[0, 777600, 2457600],
         border_for_output_term = [0, 0.5, 1] 
         )
@@ -87,7 +87,7 @@ class MakeSubs(MakeSubsABC):
             except Exception as e:
                 print(e)
             
-            # print('model_value: ', model_value)
+            print('model_value: ', model_value, '\nsize_of_text: ', len(str(subtitle).split('\n')[2].split(' ')), '\namount_of_pixels: ', amount_of_pixels, '\n')
 
             video_width, video_height = video_size
 

@@ -75,6 +75,24 @@ class FileSelectorApp:
         self.model_description_label.config(text=description)
 
     def execute(self):
+        base_dir = os.path.abspath(os.path.dirname(__file__))
+        base_dir = re.sub(r'\\', '/', base_dir)
+        os.environ['PROJECT_ROOT'] = base_dir
+
+        if not(os.path.exists(os.path.join(base_dir, 'src/subtitles/model/')) and os.path.isdir(os.path.join(base_dir, 'src/subtitles/model/'))):
+            # print('not exist!!!')
+            from pathlib import Path
+
+            from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
+            model_name = "Helsinki-NLP/opus-mt-en-ru"
+
+            tokenizer = AutoTokenizer.from_pretrained(model_name)
+            model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+            tokenizer.save_pretrained(Path.cwd() / 'src' / 'subtitles' / 'model' / 'en-ru-local')
+            model.save_pretrained(Path.cwd() / 'src' / 'subtitles' / 'model' / 'en-ru-local')
+
         if os.path.exists('./bin') and os.path.isdir('./bin'):
             shutil.rmtree('./bin')
 
@@ -111,9 +129,10 @@ class FileSelectorApp:
     def process_file(self):
         if self.file_path and self.directory_path:
             try:
-                base_dir = os.path.abspath(os.path.dirname(__file__))
-                base_dir = re.sub(r'\\', '/', base_dir)
-                os.environ['PROJECT_ROOT'] = base_dir
+                # base_dir = os.path.abspath(os.path.dirname(__file__))
+                # base_dir = re.sub(r'\\', '/', base_dir)
+                # os.environ['PROJECT_ROOT'] = base_dir
+                base_dir = os.environ.get('PROJECT_ROOT')
 
                 model = self.model_var.get()
                 print('You chose model: ', model)

@@ -1,9 +1,13 @@
 from abc import ABC, abstractmethod
 import os
+from typing import NoReturn
 
+import pysrt
 from googletrans import Translator, constants
 from pprint import pprint
-import pysrt
+from pathlib import Path
+from colorama import Fore, init
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 
 class MYTranslatorABC(ABC):
@@ -13,11 +17,11 @@ class MYTranslatorABC(ABC):
         pass
 
 
-class MyTranslator(MYTranslatorABC):
+class MyGoogleTranslator(MYTranslatorABC):
 
     translator = Translator()
 
-    def make_translate(self, subtitles, path_for_video, path_for_subs):
+    def make_translate(self, subtitles, path_for_subs):
         lst = []
         for s in subtitles:
             lst.append(s)
@@ -26,7 +30,8 @@ class MyTranslator(MYTranslatorABC):
         lst = []
 
         for j in range(len(sentences)):
-            translation = self.translator.translate(text=sentences[j].text, src='en', dest="ru")
+            translation = self.translator.translate(
+                text=sentences[j].text, src='en', dest="ru")
             lst.append(translation.text)
 
         for i in range(len(subtitles)):
@@ -34,3 +39,48 @@ class MyTranslator(MYTranslatorABC):
                 subtitles[i].text = lst[i]
 
         subtitles.save(path_for_subs)
+
+
+class MyLocalTranslator(MYTranslatorABC):
+
+    init()
+
+    tokenizer = AutoTokenizer.from_pretrained(
+        Path.cwd() / 'src' / 'subtitles' / 'model' / 'en-ru-local')
+    model = AutoModelForSeq2SeqLM.from_pretrained(
+        Path.cwd() / 'src' / 'subtitles' / 'model' / 'en-ru-local')
+
+    def translate_phrase(self, phrase: str) -> str:
+        inputs = self.tokenizer(phrase, return_tensors="pt")
+        output = self.model.generate(**inputs, max_new_tokens=100)
+        out_text = self.tokenizer.batch_decode(
+            output, skip_special_tokens=True)
+        return out_text[0]
+
+    def make_translate(self, subtitles: pysrt, path_for_subs: str) -> NoReturn:
+        lst = []
+        for s in subtitles:
+            lst.append(s)
+
+        sentences = lst
+        lst = []
+
+        for j in range(len(sentences)):
+            translation = self.translate_phrase(str(sentences[j].text))
+            lst.append(str(translation))
+
+        for i in range(len(subtitles)):
+            if sentences[i].start == subtitles[i].start and sentences[i].end == subtitles[i].end:
+                print(lst[i], '\n')
+                subtitles[i].text = lst[i]
+
+        subtitles.save(path_for_subs)
+
+
+if __name__ == '__main__':
+    print(MyLocalTranslator().translate_phrase('''I think listening to a lecture is a bit boring
+I think taking exams is incredibly stressful
+I think watching TV series is really interesting
+I think that computer game is very expensive
+I think solving that equation is quite difficult
+'''))

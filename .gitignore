@@ -17,9 +17,9 @@ venv*
 **/*.drawio
 **/do_not_need*
 **/auto_subs.py*
+**/model
 
 
 !**/*requirements.txt
-!**/for_make_folder.txt
-!**/*requirements_for_w.txt
+!**/*requirements_for_windows.txt
 
