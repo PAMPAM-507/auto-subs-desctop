@@ -14,7 +14,7 @@ pip install -r requirements_for_windows.txt;
 for linux
 ```
 python3.11 -m venv venv;
-source env/bin/activate;
+source venv/bin/activate;
 pip3 install -r requirements.txt;
 ```
 
