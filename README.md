@@ -7,12 +7,14 @@ Before install requirements it is better to make python virtualenv.
 for windows
 ```
 py -3.11 -m venv venv;
+./venv/scripts/activate;
 pip install -r requirements_for_windows.txt;
 ```
 
 for linux
 ```
 python3.11 -m venv venv;
+source env/bin/activate;
 pip3 install -r requirements.txt;
 ```
 
