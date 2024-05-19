@@ -167,7 +167,8 @@ class FileSelectorApp:
 
             else:
                 self.clear_bin_directory('./bin')
-                os.rmdir('./bin')
+                # os.rmdir('./bin')
+                pass
 
         else:
             print("You must select the file and directory to continue processing.")

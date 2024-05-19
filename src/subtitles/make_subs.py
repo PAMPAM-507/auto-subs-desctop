@@ -85,9 +85,9 @@ class MakeSubs(MakeSubsABC):
             try:
                 model_value = self.calculate_height_for_subtitle(len(str(subtitle).split('\n')[2].split(' ')), amount_of_pixels)[0]
             except Exception as e:
-                print(e)
+                print('calculate_height_for_subtitle ', e)
             
-            print('model_value: ', model_value, '\nsize_of_text: ', len(str(subtitle).split('\n')[2].split(' ')), '\namount_of_pixels: ', amount_of_pixels, '\n')
+            # print('model_value: ', model_value, '\nsize_of_text: ', len(str(subtitle).split('\n')[2].split(' ')), '\namount_of_pixels: ', amount_of_pixels, '\n')
 
             video_width, video_height = video_size
 

@@ -30,9 +30,13 @@ class MyGoogleTranslator(MYTranslatorABC):
         lst = []
 
         for j in range(len(sentences)):
-            translation = self.translator.translate(
-                text=sentences[j].text, src='en', dest="ru")
-            lst.append(translation.text)
+            try:
+                translation = self.translator.translate(
+                    text=sentences[j].text, src='en', dest="ru")
+                lst.append(translation.text)
+                
+            except Exception as e:
+                lst.append(f'translation error! Original text: {sentences[j].text}')
 
         for i in range(len(subtitles)):
             if sentences[i].start == subtitles[i].start and sentences[i].end == subtitles[i].end:
