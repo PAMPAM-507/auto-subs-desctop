@@ -12,12 +12,14 @@ venv*
 **/*.vtt
 **/*.txt
 **/*.mp4
+**/*.mp3
 **/t.py
 **/*.docx
 **/*.drawio
 **/do_not_need*
 **/auto_subs.py*
 **/model
+./bin/**
 
 
 !**/*requirements.txt
