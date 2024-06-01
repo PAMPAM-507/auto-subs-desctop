@@ -1,3 +1,4 @@
+**/1.py
 venv*
 **/__pycache__
 **/.idea
@@ -19,6 +20,7 @@ venv*
 **/do_not_need*
 **/auto_subs.py*
 **/model
+**/*.wav
 ./bin/**
 
 

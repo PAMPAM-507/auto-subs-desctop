@@ -51,11 +51,17 @@ class HandleVideo():
         new_audio_filename = None
         if translate_var == 'True':
 
-            try:
-                new_audio_filename, audio_clips = MakeAudioRecord().perform_audio_creation(subtitles=subtitles, path_of_audio='bin' )
+            # try:
+            #     new_audio_filename, audio_clips = MakeAudioRecord().perform_audio_creation(
+            #          subtitles=subtitles, path_of_audio='bin', new_speed_for_audio=1.4, new_volume_for_audio=6.0,
+            #          )
 
-            except Exception as e:
-                print('MakeAudioRecord ', e)
+            # except Exception as e:
+            #     print('MakeAudioRecord ', e)
+        
+            new_audio_filename, audio_clips = MakeAudioRecord().perform_audio_creation(
+                        subtitles=subtitles, path_of_audio='bin', new_speed_for_audio=1.4, new_volume_for_audio=6.0,
+                        )
 
         # try:
         #     PutSubs(mp4filename, srtfilename, path_for_video,
