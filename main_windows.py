@@ -9,6 +9,15 @@ import subprocess
 from threading import Thread
 
 
+# class ConsoleRedirector:
+#     def __init__(self, text_widget):
+#         self.text_widget = text_widget
+
+#     def write(self, message):
+#         self.text_widget.insert(tk.END, message)
+#         self.text_widget.see(tk.END)
+
+
 class ConsoleRedirector:
     def __init__(self, text_widget):
         self.text_widget = text_widget
@@ -17,15 +26,18 @@ class ConsoleRedirector:
         self.text_widget.insert(tk.END, message)
         self.text_widget.see(tk.END)
 
+    def flush(self):
+        pass
+
 
 class FileSelectorApp:
     def __init__(self, root):
         self.root = root
         self.root.title("auto-subs")
-        self.root.geometry("530x430")
+        self.root.geometry("650x470")
 
         self.text_widget = scrolledtext.ScrolledText(
-            self.root, wrap=tk.WORD, width=50, height=15)
+            self.root, wrap=tk.WORD, width=75, height=15)
         self.text_widget.grid(row=0, column=0, columnspan=4, sticky="nsew")
 
         console_redirector = ConsoleRedirector(self.text_widget)
@@ -55,7 +67,7 @@ class FileSelectorApp:
         self.model_description_label.grid(row=2, column=1, columnspan=3, padx=10, pady=10)
 
         self.translate_checkbutton = tk.Checkbutton(
-            self.root, text="Translate with audio", variable=self.translate_var)
+            self.root, text="Translate audio", variable=self.translate_var)
         self.translate_checkbutton.grid(row=3, column=3, columnspan=2, pady=10)
 
         self.execute_button = tk.Button(
@@ -136,7 +148,7 @@ class FileSelectorApp:
                 model = self.model_var.get()
                 translate = self.translate_var.get()
                 print('You chose model: ', model)
-                print('Translate and Voice Over: ', translate)
+                print('Translate audio: ', translate)
 
                 process_whisper = subprocess.Popen(
                     f'cd {base_dir}/bin && whisper {self.file_path} --model {model} --language en',
@@ -182,3 +194,6 @@ if __name__ == "__main__":
     print('There should be no spaces in the title of the video\n')
     print('If an error was received while the program was running, it is recommended to restart the application and start processing again\n')
     root.mainloop()
+
+
+

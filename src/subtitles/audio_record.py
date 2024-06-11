@@ -7,7 +7,6 @@ from abc import ABC, abstractmethod
 from moviepy.editor import VideoFileClip, CompositeAudioClip, AudioFileClip
 import moviepy.audio.fx.all as afx
 from pydub import AudioSegment
-import librosa
 import soundfile as sf
 
 

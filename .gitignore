@@ -24,6 +24,7 @@ venv*
 ./bin/**
 
 
-!**/*requirements.txt
+!**/*requirements_cpu.txt
+!**/*requirements_gpu.txt
 !**/*requirements_for_windows.txt
 
