@@ -12,6 +12,12 @@ pip install -r requirements_for_windows.txt;
 ```
 
 for linux
+First for linux you need to install tkinker
+
+example for deb systems
+```
+sudo apt-get install python3-tk
+```
 
 install virtual environment
 ```
@@ -22,19 +28,27 @@ or
 ```
 python3.10 -m venv venv;
 ```
+
 activate virtual environment
 ```
 . ./venv/bin/activate;
 ```
 
-install requirements for linux for execution with amdgpu
+install requirements for linux
 ```
-pip3 install -r requirements_gpu.txt;
+pip3 install -r requirements.txt;
 ```
 
-install requirements for linux for execution with cpu
+also you need to pytorch
+
+amd gpu with ROCm
 ```
-pip3 install -r requirements_cpu.txt;
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm6.0
+```
+
+cpu
+```
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
 ```
 
 After installing requirements you need to to choose file.mp4 which you want to translate and directory where you want to save your new video with subtitles. Then choose size of model for recognize audio which you want. Also you can choose "Translate audio" if you want to get video with new translated audio. After that you need to press button 'execute'. Then the program should start work.

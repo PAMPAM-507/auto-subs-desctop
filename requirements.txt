@@ -36,7 +36,6 @@ proglog==0.1.10
 pycparser==2.22
 pydub==0.25.1
 pysrt==1.1.2
-pytorch-triton-rocm==2.3.1
 PyYAML==6.0.1
 regex==2024.5.15
 requests==2.32.3
@@ -48,9 +47,6 @@ soundfile==0.12.1
 sympy==1.12
 tiktoken==0.7.0
 tokenizers==0.19.1
-torch==2.3.1+rocm5.7
-torchaudio==2.3.1+rocm5.7
-torchvision==0.18.1+rocm5.7
 tqdm==4.66.4
 transformers==4.41.2
 triton==2.3.1
