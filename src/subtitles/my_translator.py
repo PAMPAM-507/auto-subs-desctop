@@ -75,7 +75,7 @@ class MyLocalTranslator(MYTranslatorABC):
 
         for i in range(len(subtitles)):
             if sentences[i].start == subtitles[i].start and sentences[i].end == subtitles[i].end:
-                print(lst[i], '\n')
+                # print(lst[i], '\n')
                 subtitles[i].text = lst[i]
 
         subtitles.save(path_for_subs)

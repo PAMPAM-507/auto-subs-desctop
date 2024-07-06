@@ -6,6 +6,7 @@ import os
 import re
 import shutil
 import subprocess
+import re
 from threading import Thread
 
 
@@ -136,43 +137,74 @@ class FileSelectorApp:
 
     def process_file(self):
         if self.file_path and self.directory_path:
-            try:
-                base_dir = os.environ.get('PROJECT_ROOT')
+            # try:
+            base_dir = os.environ.get('PROJECT_ROOT')
 
-                model = self.model_var.get()
-                translate = self.translate_var.get()
-                print('You chose model: ', model)
-                print('Translate audio: ', translate)
+            model = self.model_var.get()
+            translate = self.translate_var.get()
+            print('You chose model: ', model)
+            print('Translate audio: ', translate)
 
-                process_whisper = subprocess.Popen(
-                    f'cd {base_dir}/bin && whisper {self.file_path} --model {model} --language en',
-                    shell=True,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.STDOUT,
-                    text=True
-                )
-
-                for line in process_whisper.stdout:
-                    print(line.strip())
-
-                process_whisper.wait()
-                print("whisper process completed.")
-
-                from src.subtitles.handle_video import HandleVideo
-                HandleVideo.handle_video(
-                self.file_path.split("/")[-1], 
-                self.file_path, 
-                self.directory_path, 
-                self.translate_var.get()
+            process_whisper = subprocess.Popen(
+                f'cd {base_dir}/bin && whisper {self.file_path} --model {model} --language en',
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True
             )
 
-                print("HandleVideo process completed!!!")
+            from src.subtitles.get_video_duration import get_video_duration
+            from src.subtitles.get_video_duration import calculate_segment_duration
 
-            except Exception as e:
-                print(f"An error has occurred: {e}")
+            process_list = '__________'
+            video_duration = get_video_duration(self.file_path)
+            duration = 0.0
+            percent = 0.0
+            
+            print(percent, '% ', process_list)
+            for line in process_whisper.stdout:
+                # print(line.strip())
 
-            else:
-                self.clear_bin_directory('./bin')
+                segment = re.search(r'\[\d{2}:\d{2}\.\d{3} --> \d{2}:\d{2}\.\d{3}\]', line.strip())
+                
+                if segment is not None:
+                    duration = calculate_segment_duration(segment.group(0))
+                    
+
+                    percent = duration * 100 / video_duration
+
+                    if percent >= 20 and percent <= 40:
+                        process_list = '11________'
+                    elif percent >= 40 and percent <= 60:
+                        process_list = '1111______'
+                    elif percent >= 60 and percent <= 80:
+                        process_list = '111111____'
+                    elif percent >= 80 and percent <= 100:
+                        process_list = '11111111__'
+                    if percent >= 100:
+                        percent = 100
+                        process_list = '1111111111'
+                    print(int(percent), '% ', process_list)
+                
+            
+            process_whisper.wait()
+            print("whisper process completed.")
+
+            from src.subtitles.handle_video import HandleVideo
+            HandleVideo.handle_video(
+            self.file_path.split("/")[-1], 
+            self.file_path, 
+            self.directory_path, 
+            self.translate_var.get()
+        )
+
+            print("HandleVideo process completed!!!")
+
+            # except Exception as e:
+            #     print(f"An error has occurred: {e}")
+
+            # else:
+            #     self.clear_bin_directory('./bin')
                 
 
         else:
