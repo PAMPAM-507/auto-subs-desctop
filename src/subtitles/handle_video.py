@@ -2,8 +2,6 @@ import pysrt
 import os
 import sys
 
-
-
 from .put_subs import PutSubs
 from .my_translator import MyGoogleTranslator, MyLocalTranslator
 from .audio_record import MakeAudioRecord
@@ -43,6 +41,7 @@ class HandleVideo():
             print('handle_video ', e)
         
         try:
+
             # MyGoogleTranslator().make_translate(subtitles, srtfilename)
             MyLocalTranslator().make_translate(subtitles, srtfilename)
 

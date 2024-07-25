@@ -71,7 +71,9 @@ class MyLocalTranslator(MYTranslatorABC):
 
         for j in range(len(sentences)):
             translation = self.translate_phrase(str(sentences[j].text))
-            lst.append(str(translation))
+            if str(translation).casefold() in ('ммм.', 'мм.', 'ааа!', 'ох!'):
+                lst.append('...')
+            else: lst.append(str(translation))
 
         for i in range(len(subtitles)):
             if sentences[i].start == subtitles[i].start and sentences[i].end == subtitles[i].end:
