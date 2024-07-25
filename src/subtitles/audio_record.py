@@ -26,8 +26,13 @@ class MakeAudioRecordABC(ABC):
 
     @staticmethod
     def text_to_speech(text, output_file):
-        tts = gTTS(text=text, lang='ru')
-        tts.save(output_file)
+        try:
+            tts = gTTS(text=text, lang='ru')
+            tts.save(output_file)
+            return True
+        
+        except AssertionError:
+            return None
 
     @staticmethod
     def time_to_seconds(t):
@@ -84,22 +89,21 @@ class MakeAudioRecord(MakeAudioRecordABC):
             text = subtitle.text
 
             audio_file = f"./{path_of_audio}/records/audio_{i}.mp3"
-            cls.text_to_speech(text, audio_file)
+            if cls.text_to_speech(text, audio_file):
+
+                modified_audio_file = f"./{path_of_audio}/records/modified_audio_{i}.mp3"
+                
+                cls.change_audio_speed_without_distortion(audio_file=audio_file, path_for_output_file=modified_audio_file, speed_factor=new_speed_for_audio,
+                    )
+
+                audio_clip = AudioFileClip(modified_audio_file)
+
+                duration = cls.check_audio_clip_is_shorter_than_subtitle(audio_clip, duration, audio_file)
+                
+                audio_clip = audio_clip.set_start(start_time).set_duration(duration).volumex(new_volume_for_audio)
 
 
-            modified_audio_file = f"./{path_of_audio}/records/modified_audio_{i}.mp3"
-            
-            cls.change_audio_speed_without_distortion(audio_file=audio_file, path_for_output_file=modified_audio_file, speed_factor=new_speed_for_audio,
-                )
-
-            audio_clip = AudioFileClip(modified_audio_file)
-
-            duration = cls.check_audio_clip_is_shorter_than_subtitle(audio_clip, duration, audio_file)
-            
-            audio_clip = audio_clip.set_start(start_time).set_duration(duration).volumex(new_volume_for_audio)
-
-
-            audio_clips.append(audio_clip)
+                audio_clips.append(audio_clip)
 
         return CompositeAudioClip(audio_clips), audio_clips
 

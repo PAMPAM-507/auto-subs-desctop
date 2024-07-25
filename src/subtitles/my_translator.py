@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import os
+import re
 from typing import NoReturn
 
 import pysrt
@@ -71,9 +72,11 @@ class MyLocalTranslator(MYTranslatorABC):
 
         for j in range(len(sentences)):
             translation = self.translate_phrase(str(sentences[j].text))
-            if str(translation).casefold() in ('ммм.', 'мм.', 'ааа!', 'ох!'):
+            # print(str(translation))
+            if str(translation).casefold() in ('хм...', 'тсс!', 'тсс.','тсс','э-э', 'ух.', 'ммм.', 'мм.', 'ааа!', 'ох!', 'ммм', 'м.', 'хмм', 'ааа', 'ох.', 'ммм...', 'ааа...', 'ааа.', 'хм.'):
                 lst.append('...')
             else: lst.append(str(translation))
+        
 
         for i in range(len(subtitles)):
             if sentences[i].start == subtitles[i].start and sentences[i].end == subtitles[i].end:
